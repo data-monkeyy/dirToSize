@@ -1,0 +1,38 @@
+using System;
+using System.IO;
+
+public static class DirectoryTraverserDFS
+{
+    private static void TraverseDir(DirectoryInfo dir, string spaces, StreamWriter writer)
+    {
+        // get the sizes of all files+folders within current dir
+        long dirSize = 0;
+        foreach (FileInfo file in dir.GetFiles("*.*", SearchOption.AllDirectories))
+        {
+            dirSize += file.Length;
+        }
+
+        writer.WriteLine(spaces + dir.FullName + "," + dirSize + "," + File.GetLastWriteTime(dir.FullName));
+
+        DirectoryInfo[] children = dir.GetDirectories();
+        
+        // for each child go and visit its sub-tree
+        foreach (DirectoryInfo child in children)
+        {
+            TraverseDir(child, spaces + " ", writer);
+        }
+    }
+
+    static void TraverseDir(string directoryPath, string outputPath)
+    {
+        using (StreamWriter writer = new StreamWriter(outputPath))
+        {
+            TraverseDir(new DirectoryInfo(directoryPath), string.Empty, writer);
+        }
+    }
+
+    static void Main()
+    {
+        TraverseDir(@"C:\Users\Elliott\Desktop", @"C:\Users\Elliott\Desktop\output4.txt");
+    }
+}
