@@ -33,6 +33,6 @@ public static class DirectoryTraverserDFS
 
     static void Main()
     {
-        TraverseDir(@"C:\Users\Elliott\Desktop", @"C:\Users\Elliott\Desktop\output4.txt");
+        TraverseDir<root path to scan from>, <output file location);
     }
 }
